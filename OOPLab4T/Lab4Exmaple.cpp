@@ -4,7 +4,31 @@
 #include "ComplexMatrix.h"
 #include "MyAssoc.h"
 
+VectorDouble operator+(VectorDouble lhs, const VectorDouble& rhs);
+{
+        lhs += rhs;
+        return lhs;
+    }
+ friend VectorDouble operator-(VectorDouble lhs, const VectorDouble& rhs) {
+        lhs -= rhs;
+        return lhs;
+    }
+ friend VectorDouble operator*(VectorDouble lhs, double scalar) 
+{
+        lhs *= scalar;
+        return lhs;
+    }
 
+ friend VectorDouble operator/(VectorDouble lhs, double scalar) 
+{
+        lhs /= scalar;
+        return lhs;
+    }
+
+   friend VectorDouble operator%(VectorDouble lhs, int modulo) {
+        lhs %= modulo;
+        return lhs;
+    }
 
 int mainExample1() {
 
