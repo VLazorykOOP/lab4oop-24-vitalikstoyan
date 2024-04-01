@@ -161,32 +161,43 @@ public:
     }
 
     // Бінарні оператори
-    friend VectorDouble operator+(VectorDouble lhs, const VectorDouble& rhs) {
+    friend VectorDouble operator+(VectorDouble lhs, const VectorDouble& rhs);
+
+
+    friend VectorDouble operator-(VectorDouble lhs, const VectorDouble& rhs) ; 
+    friend VectorDouble operator*(VectorDouble lhs, double scalar) ;
+
+
+    friend VectorDouble operator/(VectorDouble lhs, double scalar) ;
+
+
+    friend VectorDouble operator%(VectorDouble lhs, int modulo) ;
+};
+VectorDouble operator+(VectorDouble lhs, const VectorDouble& rhs);
+{
         lhs += rhs;
         return lhs;
     }
-
-    friend VectorDouble operator-(VectorDouble lhs, const VectorDouble& rhs) {
+ friend VectorDouble operator-(VectorDouble lhs, const VectorDouble& rhs) {
         lhs -= rhs;
         return lhs;
     }
-
-    friend VectorDouble operator*(VectorDouble lhs, double scalar) {
+ friend VectorDouble operator*(VectorDouble lhs, double scalar) 
+{
         lhs *= scalar;
         return lhs;
     }
 
-    friend VectorDouble operator/(VectorDouble lhs, double scalar) {
+ friend VectorDouble operator/(VectorDouble lhs, double scalar) 
+{
         lhs /= scalar;
         return lhs;
     }
 
-    friend VectorDouble operator%(VectorDouble lhs, int modulo) {
+   friend VectorDouble operator%(VectorDouble lhs, int modulo) {
         lhs %= modulo;
         return lhs;
     }
-};
-
 /*Побудувати асоційований клас збереження
 двох сутностей. В завданні створити клас, який представляє собою асоціативний
 масив між двома сутностями. Написати функцію створення набору
