@@ -201,67 +201,63 @@ public:
 #include <unordered_map>
 #include <string>
 
-class AssociatedEntities {
+class DomainIPAssociation {
 private:
-    std::unordered_map<std::string, std::string> data; // Асоційований масив для збереження пар даних
+    std::unordered_map<std::string, std::string> association;
 
 public:
-    // Функція додавання асоціативної сутності (доменного імені та IP-адреси)
-    void addEntity(const std::string& domain, const std::string& ip) {
-        data[domain] = ip;
+    void createAssociation(const std::string& domain, const std::string& ip) {
+        association[domain] = ip;
+        std::cout << "Association created: Domain - " << domain << ", IP - " << ip << std::endl;
     }
 
-    // Перевантаження оператора індексації []
-    std::string operator[](const std::string& domain) {
-        if (data.find(domain) != data.end()) {
-            return data[domain];
+    std::string getIP(const std::string& domain) {
+        if (association.find(domain) != association.end()) {
+            return association[domain];
         }
         else {
-            // Встановлення коду помилки у змінну CodeError
-            std::cerr << "Error: Domain not found" << std::endl;
-            // Повернення порожнього рядка у випадку відсутності сутності
-            return "";
+            return "Error: item not found";
         }
     }
 
-    // Перевантаження дружніх операцій введення та виведення
-    friend std::ostream& operator<<(std::ostream& os, const AssociatedEntities& ae) {
-        for (const auto& pair : ae.data) {
+    friend std::ostream& operator<<(std::ostream& os, const DomainIPAssociation& obj) {
+        for (const auto& pair : obj.association) {
             os << "Domain: " << pair.first << ", IP: " << pair.second << std::endl;
         }
         return os;
     }
 
-    friend std::istream& operator>>(std::istream& is, AssociatedEntities& ae) {
+    friend std::istream& operator>>(std::istream& is, DomainIPAssociation& obj) {
         std::string domain, ip;
-        std::cout << "Enter domain: ";
+        std::cout << "Enter domain name: ";
         is >> domain;
         std::cout << "Enter IP address: ";
         is >> ip;
-        ae.addEntity(domain, ip);
+        obj.createAssociation(domain, ip);
         return is;
     }
 };
 
 int main() {
-    AssociatedEntities ae;
+    DomainIPAssociation association;
 
-    // Додавання асоціативних сутностей
-    ae.addEntity("example.com", "192.168.1.1");
-    ae.addEntity("google.com", "172.217.168.46");
-    ae.addEntity("openai.org", "52.21.5.176");
+    try {
+        association.createAssociation("example.com", "192.168.1.1");
+        association.createAssociation("example.net", "192.168.1.2");
 
-    // Використання оператора індексації []
-    std::cout << "IP address for google.com: " << ae["google.com"] << std::endl;
-    std::cout << "IP address for yahoo.com: " << ae["yahoo.com"] << std::endl; // Тестування відсутності сутності
+        std::cout << "Associations after creation:" << std::endl;
+        std::cout << association;
 
-    // Виведення асоціативних сутностей
-    std::cout << "Associated Entities:" << std::endl;
-    std::cout << ae << std::endl;
+        std::string inputDomain;
+        std::cout << "Enter domain name to retrieve IP address: ";
+        std::cin >> inputDomain;
 
-    // Введення нової асоціативної сутності за допомогою оператора введення >>
-    std::cin >> ae;
+        std::string retrievedIP = association.getIP(inputDomain);
+        std::cout << "IP address for " << inputDomain << ": " << retrievedIP << std::endl;
+    }
+    catch (const char* error) {
+        std::cerr << "Error: " << error << std::endl;
+    }
 
     return 0;
 }
-
